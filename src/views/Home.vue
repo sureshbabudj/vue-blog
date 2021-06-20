@@ -1,18 +1,34 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <Post
+    v-for="post of posts"
+    v-bind:key="post.id"
+    :post="post"
+    :excerpt="true"
+  />
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import Post from "../components/Post.vue";
 export default {
   name: "Home",
-  components: {
-    HelloWorld,
+  data: () => {
+    return {
+      posts: []
+    };
   },
+  components: {
+    Post
+  },
+  async created() {
+    try {
+      const res = await fetch(
+        "http://localhost:3434/posts?_sort=date&_order=desc&_page=1&_limit=10"
+      );
+      this.posts = await res.json();
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  methods: {}
 };
 </script>

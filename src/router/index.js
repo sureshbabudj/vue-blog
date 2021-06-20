@@ -1,26 +1,63 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import store from "../store";
 import Home from "../views/Home.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: Home
+  },
+  {
+    path: "/posts/:postId",
+    name: "post",
+    component: () => import(/* webpackChunkName: "post" */ "../views/Post.vue")
   },
   {
     path: "/about",
     name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: () =>
+      import(/* webpackChunkName: "Signup" */ "../views/Signup/Signup.vue")
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () =>
+      import(/* webpackChunkName: "Login" */ "../views/Login/Login.vue")
+  },
+  {
+    path: "/newpost",
+    name: "NewPost",
+    component: () =>
+      import(/* webpackChunkName: "NewPost" */ "../views/NewPost.vue")
+  }
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes,
+  routes
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!store.state.user;
+
+  if (to.name !== "Login" && to.name !== "Signup") {
+    if (!isAuthenticated) {
+      next({ name: "Login" });
+    } else {
+      next();
+    }
+  } else {
+    if (!isAuthenticated) {
+      next();
+    }
+  }
 });
 
 export default router;

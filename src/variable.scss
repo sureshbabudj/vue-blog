@@ -1,0 +1,23 @@
+// Set your brand colors
+$blue: rgb(9, 135, 253);
+$purple: #8a4d76;
+$pink: #fa7c91;
+$brown: #757763;
+$beige-light: #d0d1cd;
+$white: #fff;
+$red: #ff2121;
+
+// Update Bulma's global variables
+$family-sans-serif: "Hind Siliguri", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $blue;
+$link: $red;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$body-background-color: $white;
+$control-border-width: 2px;
+$input-border-color: #dedede;
+// $input-shadow: none;
